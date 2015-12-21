@@ -7,21 +7,23 @@ TEST_SETS = [
   ['3' , '1 6 5', '1 3 5', '1 2'],
   ['4' , '4 4 5 5', '-10 4 3 5', '2 3'],
   ['4' , '-1 -2 -3 -4', '-5 -2 -1 -2', '0 2'],
-  ['3' , '5 0 10 20', '0 40 0 30', '2 2'],
+  ['4' , '5 0 10 20', '0 40 0 30', '3 3'],
 ] 
 
 
-def check(next, n_index, current, c_index, partner, p_index):
-    if int(next) >= int(current):
-        
-     
+def check(next_, n_index, current, c_index, partner, p_index):
+    if int(next_) >= int(current):
+        current = next_
+        c_index = n_index
+    return [current, c_index, partner, p_index]
+
 
 def main(*args):
     arr_i = int(args[0]) - 1
     arr_a = args[1].split(' ')
     arr_b = args[2].split(' ')
-    max_a = [int(arr_a[-1]), arr_i]
-    max_b = [int(arr_b[-1]), arr_i]
+    from_start = [arr_a[0], 0, arr_b[0], 0]
+    from_end = [arr_a[-1], arr_i, arr_b[-1], arr_i]
     while arr_i > 0:
         arr_i -= 1        
         arr_a[arr_i] = int(arr_a[arr_i])
