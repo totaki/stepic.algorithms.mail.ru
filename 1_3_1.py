@@ -1,80 +1,54 @@
 import math
 import sys
 
-def is_prime(n):
-    result = True
-    for i in range(2, int(math.sqrt(n)) + 1):
-      if not (n / i - n // i):
-          result = False
-          break
-    return result
+
+TEST_SETS = [
+  ['4' , '4 -8 6 0', '-10 3 1 1', '0 1'],
+  ['3' , '1 6 5', '1 3 5', '1 2'],
+  ['4' , '4 4 5 5', '-10 4 3 5', '2 3'],
+  ['4' , '-1 -2 -3 -4', '-5 -2 -1 -2', '0 2'],
+  ['3' , '5 0 10 20', '0 40 0 30', '2 2'],
+] 
 
 
-def test_prime():
+def check(next, n_index, current, c_index, partner, p_index):
+    if int(next) >= int(current):
+        
+     
+
+def main(*args):
+    arr_i = int(args[0]) - 1
+    arr_a = args[1].split(' ')
+    arr_b = args[2].split(' ')
+    max_a = [int(arr_a[-1]), arr_i]
+    max_b = [int(arr_b[-1]), arr_i]
+    while arr_i > 0:
+        arr_i -= 1        
+        arr_a[arr_i] = int(arr_a[arr_i])
+        arr_b[arr_i] = int(arr_b[arr_i])
+        if arr_b[arr_i] >= max_b[0] and ((arr_b[arr_i] - max_b[0]) >= max_a[0]):
+            max_b = [arr_b[arr_i], arr_i]
+            max_a = [arr_a[arr_i], arr_i]
+            continue
+        if arr_a[arr_i] >= max_a[0]:
+            max_a = [arr_a[arr_i], arr_i]
+    return ' '.join([str(max_a[1]), str(max_b[1])])
+
+
+def test():
     result = True
-    data = [(2, 1), (3, 1), (5, 1), (11, 1) , (12, 0), (16, 0), (25, 0),
-            (29, 1), (31, 1), (149, 1), (150, 0), (151, 1), (240, 0)
-            ]
-    for i in data:
-        if is_prime(i[0]) != bool(i[1]):
-            print('   ', is_prime(i[0]), '!=', bool(i[1]))
+    for i in TEST_SETS:
+        if main(*i[:3]) != i[3]:
             result = False
-            break
+            print(main(*i[:3]), ' != ' , i[3])
     return result
-
-
-def next_prime(number):
-    number += 1
-    while True:
-        if is_prime(number):
-            return number
-        number += 1
-
-
-def test_next_prime():
-    result = True
-    data = [(2, 3), (7, 11), (31, 37), (139, 149)]
-    for i in data:
-        if next_prime(i[0]) != i[1]:
-            print('   ', next_prime(i[0]), '!=', i[1])
-            result = False
-            break
-    return result
-
-
-def get_factors(number):
-    factors = []
-    factor = 2
-    while number != 1:
-        if not (number / factor - number // factor):
-            factors.append(factor)
-            number = number // factor
-        else:
-            factor = next_prime(factor)
-    return factors
-
-
-def test_get_factors():
-    result = True
-    data = [(75, [3, 5, 5]), (35, [5, 7]), (150, [2, 3, 5, 5])]
-    for i in data:
-        if get_factors(i[0]) != i[1]:
-            print('   ', get_factors(i[0]), '!=', i[1])
-            result = False
-            break
-    return result
-
-
-def main(number):
-    factors = ' '.join([str(i) for i in get_factors(int(number))])
-    print(factors)
 
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'test':
-        print("Test prime - ", test_prime() and 'Ok')
-        print("Test next prime - ", test_next_prime() and 'Ok')
-        print("Test get factors - ", test_get_factors() and 'Ok')
+        print("Test - ", test() and 'Ok')
     else:
-        number = input()
-        main(number)
+        arr_len = input()
+        arr_a = input()
+        arr_b = input()
+        print(main(arr_len, arr_a, arr_b))
