@@ -8,33 +8,29 @@ TEST_SETS = [
   ['4' , '4 4 5 5', '-10 4 3 5', '2 3'],
   ['4' , '-1 -2 -3 -4', '-5 -2 -1 -2', '0 2'],
   ['4' , '5 0 10 20', '0 40 0 30', '3 3'],
+  ['6' , '1 1 1 7 1 10', '1 10 1 1 7 1', '3 4'],
 ] 
 
 
-def check(next_, n_index, current, c_index, partner, p_index):
-    if int(next_) >= int(current):
-        current = next_
-        c_index = n_index
-    return [current, c_index, partner, p_index]
-
-
 def main(*args):
-    arr_i = int(args[0]) - 1
+    arr_i = arr_j = 0
     arr_a = args[1].split(' ')
     arr_b = args[2].split(' ')
-    from_start = [arr_a[0], 0, arr_b[0], 0]
-    from_end = [arr_a[-1], arr_i, arr_b[-1], arr_i]
-    while arr_i > 0:
-        arr_i -= 1        
-        arr_a[arr_i] = int(arr_a[arr_i])
-        arr_b[arr_i] = int(arr_b[arr_i])
-        if arr_b[arr_i] >= max_b[0] and ((arr_b[arr_i] - max_b[0]) >= max_a[0]):
-            max_b = [arr_b[arr_i], arr_i]
-            max_a = [arr_a[arr_i], arr_i]
-            continue
-        if arr_a[arr_i] >= max_a[0]:
-            max_a = [arr_a[arr_i], arr_i]
-    return ' '.join([str(max_a[1]), str(max_b[1])])
+    maxs = []
+    max_i = [0, 0]
+    max_sum = sum([int(arr_a[max_i[0]]), int(arr_b[max_i[1]])])
+    while arr_i < int(args[0]):
+        arr_j = arr_i
+        while arr_j < int(args[0]):
+          num_a = int(arr_a[arr_i])
+          num_b = int(arr_b[arr_j])
+          cur_sum = sum([num_a, num_b])
+          if cur_sum > max_sum:
+              max_sum = cur_sum
+              max_i = [arr_i, arr_j]
+          arr_j += 1
+        arr_i += 1
+    return ' '.join([str(i) for i in max_i])
 
 
 def test():
